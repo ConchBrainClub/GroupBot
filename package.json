@@ -17,6 +17,6 @@
     "url": "https://github.com/ConchBrainClub/GroupBot"
   },
   "dependencies": {
-    "oicq": "^1.11.5"
+    "oicq": "^1.12.6"
   }
 }

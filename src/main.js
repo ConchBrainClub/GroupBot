@@ -1,21 +1,23 @@
-const oicq = require("oicq");
+const {createClient} = require("oicq");
 const fs = require("fs");
 
 let info = JSON.parse(fs.readFileSync("config.json"));
 
-let bot = oicq.createClient(info.account);
+const bot = createClient(info.account);
 
-bot.on("system.login.captcha", ()=>{
+//监听并输入滑动验证码ticket
+bot.on("system.login.slider", ()=>{
   process.stdin.once("data", input=>{
-    bot.captchaLogin(input);
+    bot.sliderLogin(input);
   });
 });
 
 bot.on("message", data=>{
   console.log(data);
-  if(data.message_type == "group" && data.group_id == 1091165646) {
-    bot.sendGroupMsg(data.group_id, data.raw_message);
-  }
+  if (data.group_id > 0)
+    bot.sendGroupMsg(data.group_id, "hello");
+  else
+    bot.sendPrivateMsg(data.user_id, "hello");
 });
 
-bot.login(info.password);
+bot.login(info.password); 
