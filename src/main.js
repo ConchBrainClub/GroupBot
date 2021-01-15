@@ -26,12 +26,12 @@ bot.on("message", data => {
   let pattern = /\[(.*)]/;
   let info = pattern.exec(data.raw_message)[0];
   if(info.includes("@ConchBrainBot")){
-    handlerMessage(data);
+    handlerMessage(data,info);
   }
 
 });
 
-function handlerMessage(data){
+function handlerMessage(data,info){
   console.log(data);
   if(!currentUser.includes(data.sender.user_id))
     currentUser.push(data.sender.user_id);
