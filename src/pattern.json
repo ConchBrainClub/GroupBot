@@ -1,5 +1,9 @@
 [
     {
+        "pattern": ".*",
+        "plugin": "brother"
+    },
+    {
         "pattern": "你好",
         "plugin": "hello"
     },
