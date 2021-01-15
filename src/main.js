@@ -1,6 +1,5 @@
 const {createClient} = require("oicq");
 const fs = require("fs");
-const weather = require("./plugins/weather");
 
 let info = JSON.parse(fs.readFileSync("config.json"));
 
@@ -14,13 +13,30 @@ bot.on("system.login.slider", () => {
 
 bot.on("message", data => {
 
+  if(!data.group_id){
+    return;
+  }
+
+  let pattern = /\[(.*)]/;
+  let info = pattern.exec(data.raw_message)[0];
+
+  if(!info.includes("@ConchBrainBot")){
+    return;
+  }
+
   console.log(data);
 
-  if (data.group_id > 0 && data.raw_message.includes("@ConchBrainBot")){
+  let message = data.raw_message.replace(info,"").trim();
 
-    let message = data.raw_message.substring(data.raw_message.indexOf("]") + 1).trim();
-    weather.exec(data.group_id,message,bot);
-  }
+  let pluginConfigs = JSON.parse(fs.readFileSync("./src/pattern.json").toString());
+  pluginConfigs.forEach((config) => {
+
+    if(new RegExp(config.pattern).test(message)){
+      require("./plugins/" + config.plugin).exec(data.sender, message, (replay) => {
+        bot.sendGroupMsg(data.group_id, replay);
+      })
+    }
+  });
 
 });
 

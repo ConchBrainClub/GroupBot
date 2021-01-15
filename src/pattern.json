@@ -1,0 +1,10 @@
+[
+    {
+        "pattern": "你好",
+        "plugin": "hello"
+    },
+    {
+        "pattern": "(.*)天气",
+        "plugin": "weather"
+    }
+]
