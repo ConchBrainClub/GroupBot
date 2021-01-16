@@ -24,6 +24,10 @@ bot.on("message", data => {
                 handlerMessage(data);
                 return;
             }
+            else{
+                let index = currentUser.indexOf(user);
+                currentUser.splice(index, 1);
+            }
         }
     });
 
@@ -37,7 +41,13 @@ bot.on("message", data => {
 
 function handlerMessage(data, info) {
     console.log(data);
-    if (!currentUser.includes(data.sender.user_id))
+    let flag = false;
+    currentUser.forEach((user) => {
+        if(user.id == data.sender.user_id)
+            flag = true;
+    });
+
+    if (!flag)
         currentUser.push({
             "id": data.sender.user_id,
             "expires": new Date().getTime() + 1000 * 60
@@ -46,8 +56,13 @@ function handlerMessage(data, info) {
     let message = data.raw_message.replace(info, "").trim();
 
     if (new RegExp("再见|拜拜").test(message)) {
-        let index = currentUser.indexOf(data.sender.user_id);
-        currentUser.splice(index, 1);
+        currentUser.forEach((user) => {
+            if (user.id == data.sender.user_id) {
+                let index = currentUser.indexOf(user);
+                currentUser.splice(index, 1);
+                return;
+            }
+        });
         bot.sendGroupMsg(data.group_id, "拜拜" + data.sender.nickname);
         return;
     }
