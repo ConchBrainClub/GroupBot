@@ -24,8 +24,8 @@ type:function
 para:replay 回复内容
 */
 
-module.exports.exec = (sender,message,callback) => {
-    if(sender.user_id == 1418045110){
+module.exports.exec = (sender, message, callback) => {
+    if (sender.user_id == 1418045110) {
         callback("妈的智障");
     }
 }

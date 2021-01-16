@@ -24,6 +24,6 @@ type:function
 para:replay 回复内容
 */
 
-module.exports.exec = (sender,message,callback) => {
+module.exports.exec = (sender, message, callback) => {
     callback("你好 " + sender.nickname);
 }
