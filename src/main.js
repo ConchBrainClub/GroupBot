@@ -20,13 +20,13 @@ bot.on("message", data => {
 
     currentUser.forEach((user) => {
         if (user.id == data.sender.user_id) {
+            
+            let index = currentUser.indexOf(user);
+            currentUser.splice(index, 1);
+
             if (new Date().getTime() < user.expires) {
                 handlerMessage(data);
                 return;
-            }
-            else{
-                let index = currentUser.indexOf(user);
-                currentUser.splice(index, 1);
             }
         }
     });
