@@ -46,14 +46,20 @@ module.exports.exec = (sender, message, callback) => {
 
         res.on("end", () => {
 
-            let weather = JSON.parse(data);
+            try {
+                
+                let weather = JSON.parse(data);
 
-            let replay = `${weather.weather[0].description}
+                let replay = 
+`${weather.weather[0].description}
 最高温度${Math.round(weather.main.temp_max - 272.15)}
 最低温度${Math.round(weather.main.temp_min - 272.15)}
 风速${weather.wind.speed}`;
 
-            callback(replay);
+                callback(replay);
+                
+            } catch (error) {}
+
         });
 
         res.on("error", (err) => {
