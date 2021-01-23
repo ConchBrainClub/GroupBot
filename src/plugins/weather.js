@@ -34,7 +34,7 @@ module.exports.exec = (sender, message, callback) => {
         return;
     }
 
-    let api = `http://api.openweathermap.org/data/2.5/weather?q=${city}&appid=2e08eccb466e60a88dc1a757ebadd1e9`;
+    let api = `http://api.openweathermap.org/data/2.5/weather?q=${city}&appid=2e08eccb466e60a88dc1a757ebadd1e9&lang=zh_cn`;
 
     http.get(api, (res) => {
 
@@ -45,7 +45,15 @@ module.exports.exec = (sender, message, callback) => {
         });
 
         res.on("end", () => {
-            callback(data);
+
+            let weather = JSON.parse(data);
+
+            let replay = `${weather.weather[0].description}
+最高温度${Math.round(weather.main.temp_max - 272.15)}
+最低温度${Math.round(weather.main.temp_min - 272.15)}
+风速${weather.wind.speed}`;
+
+            callback(replay);
         });
 
         res.on("error", (err) => {
